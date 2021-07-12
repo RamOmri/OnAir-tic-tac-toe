@@ -10,7 +10,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import gameScreen from './src/gamescreen';
+import GameScreen from './src/gamescreen';
 import IntroScreen from './src/introscreen'
 
 
@@ -24,8 +24,8 @@ const App = () => {
           headerShown: false,
           gestureEnabled: Platform.OS == 'android',
         }}>
-        <Stack.Screen name="introscreen" component = {IntroScreen} />
-        {/*  <Stack.Screen name="game-screen" component={gameScreen} /> */}
+        <Stack.Screen name="intro-screen" component = {IntroScreen} />
+         <Stack.Screen name="game-screen" component={GameScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
