@@ -1,9 +1,10 @@
 import { stat } from 'fs';
-import {ADD_COLUMN, SET_GRIDSIZE} from './types'
+import {ADD_COLUMN, SET_GRIDSIZE, SET_CURRENT_PLAYER} from './types'
 
 const initState = {
     grid_size : 3,
-    board_map: []
+    board_map: [],
+    current_player:'crosses'
 }
 
 const reducer = (state = initState, action) => {
@@ -18,6 +19,11 @@ const reducer = (state = initState, action) => {
         ...state,
         board_map: [...state.board_map, action.data]
     }
+    case SET_CURRENT_PLAYER:
+      return{
+        ...state,
+        current_player: action.data
+      }
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-import { SET_GRIDSIZE, ADD_COLUMN } from "./types";
+import { SET_GRIDSIZE, ADD_COLUMN, SET_CURRENT_PLAYER } from "./types";
 
 export const set_gridsize = (size) => ({
     type: SET_GRIDSIZE,
@@ -8,3 +8,7 @@ export const set_gridsize = (size) => ({
     type: ADD_COLUMN,
     data: cells,
   });
+  export const set_current_player = (player)=>({
+    type: SET_CURRENT_PLAYER,
+    data: player
+  })

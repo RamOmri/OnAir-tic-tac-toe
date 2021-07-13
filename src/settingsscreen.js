@@ -34,30 +34,29 @@ class settingsscreen extends Component {
               ...styles.select_gridsize,
               backgroundColor: this.props.grid_size == 3 ? 'green' : 'white',
             }}
-            onPress ={()=>{
-                this.props.set_gridsize(3)
-            }}
-            >
+            onPress={() => {
+              this.props.set_gridsize(3);
+            }}>
             <Text style={styles.select_gridsize_font}>3X3</Text>
           </TouchableOpacity>
-          <TouchableOpacity  style={{
+          <TouchableOpacity
+            style={{
               ...styles.select_gridsize,
               backgroundColor: this.props.grid_size == 4 ? 'green' : 'white',
             }}
-            onPress ={()=>{
-                this.props.set_gridsize(4)
-            }}
-            >
+            onPress={() => {
+              this.props.set_gridsize(4);
+            }}>
             <Text style={styles.select_gridsize_font}>4X4</Text>
           </TouchableOpacity>
-          <TouchableOpacity  style={{
+          <TouchableOpacity
+            style={{
               ...styles.select_gridsize,
               backgroundColor: this.props.grid_size == 5 ? 'green' : 'white',
             }}
-            onPress ={()=>{
-                this.props.set_gridsize(5)
-            }}
-            >
+            onPress={() => {
+              this.props.set_gridsize(5);
+            }}>
             <Text style={styles.select_gridsize_font}>5X5</Text>
           </TouchableOpacity>
         </View>
@@ -80,10 +79,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingBottom: 100,
   },
-  currentPlayer:{
-    height:Dimensions.get('window').width/3,
-    width:Dimensions.get('window').width/3
-  },    
+  currentPlayer: {
+    height: Dimensions.get('window').width / 3,
+    width: Dimensions.get('window').width / 3,
+    resizeMode: 'stretch',
+  },
   select_gridsize: {
     justifyContent: 'center',
     alignItems: 'center',
