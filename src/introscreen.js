@@ -19,7 +19,7 @@ export default class IntroScreen extends Component {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            this.props.navigation.navigate('game-screen');
+            this.props.navigation.navigate('settings-screen');
           }}>
           <Text style={styles.buttonText}>Play Now</Text>
         </TouchableOpacity>

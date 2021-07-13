@@ -12,6 +12,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import GameScreen from './src/gamescreen';
 import IntroScreen from './src/introscreen'
+import settingsscreen from './src/settingsscreen';
 
 
 const Stack = createStackNavigator();
@@ -25,6 +26,7 @@ const App = () => {
           gestureEnabled: Platform.OS == 'android',
         }}>
         <Stack.Screen name="intro-screen" component = {IntroScreen} />
+        <Stack.Screen name="settings-screen" component = {settingsscreen} />
          <Stack.Screen name="game-screen" component={GameScreen} />
       </Stack.Navigator>
     </NavigationContainer>
