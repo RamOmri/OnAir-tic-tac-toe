@@ -11,34 +11,40 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+
 import {connect} from 'react-redux';
-import { set_gridsize } from './actions';
+import { set_gridsize } from '../actions';
 
-import Board from './components/Board'
+class Board extends Component {
+  form_grid = () => {
+    let components = [];
+    for(let i = 0; i < this.props.numCells; i++){
 
-class GameScreen extends Component {
-  
+    }
+
+    return components;
+  };
+
   render() {
-    console.log(this.props.grid_size)
     return (
-        <>
-        <View style = {{flex:1, backgroundColor:'black'}}>
-            <Board />
-        </View>
-        
-        </>
+      <View style={styles.container}>
+        {this.form_grid()}
+        <Text>{this.props.grid_size}</Text>
+      </View>
     );
   }
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#131212',
+    margin: 50,
+    backgroundColor: '#f0eeed',
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 100,
   },
 });
+
 
 const mapStateToProps = (state) => {
     return {
@@ -51,6 +57,5 @@ const mapStateToProps = (state) => {
       set_gridsize: (size) => dispatch(set_gridsize(size)),
     };
   };
-  
 
-export default connect(mapStateToProps, mapDispatchToProps)(GameScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(Board);
