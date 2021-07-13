@@ -17,22 +17,26 @@ import {set_current_player} from '../actions';
 class Cell extends Component {
   state = {
     identity: null,
+    image: null
   };
 
   handlePress = () => {
     this.set_cell_identity();
-    this.set_player();
+    this.props.onMoveMade()
   };
+  
   set_cell_identity = () => {
     if (this.props.current_player == 'crosses') {
-      this.setState({identity: 'crosses'});
+      this.setState({identity: 'crosses',
+    image: require('../img/Cross-red.png')});
+
     } else {
-      this.setState({identity: 'knots'});
+      this.setState({identity: 'knots',
+    image: require('../img/Knot-red.png')});
     }
+ 
   };
-  set_player = () => {
-    this.props.set_current_player(this.state.identity);
-  };
+
 
   render() {
     return (
@@ -47,7 +51,7 @@ class Cell extends Component {
             width: Dimensions.get('window').width / this.props.grid_size - 5,
             height: Dimensions.get('window').width / this.props.grid_size - 5,
           }}>
-          {this.state.identity === 'crosses' && (
+          {this.state.identity && (
             <Image
               style={{
                 width:
@@ -57,7 +61,7 @@ class Cell extends Component {
                 resizeMode: 'stretch',
                 borderRadius: 20,
               }}
-              source={require('../img/Cross-red.png')}
+              source={this.state.image}
             />
           )}
         </View>
