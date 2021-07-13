@@ -28,11 +28,7 @@ class GameScreen extends Component {
           <Board />
           <Image
             style={styles.currentPlayer}
-            source={
-              this.props.current_player == 'knots'
-                ? require('./img/Knot-red.png')
-                : require('./img/Cross-red.png')
-            }
+            source={this.props.current_player == 'knots' ? require('./img/Knot-red.png'): require('./img/Cross-red.png')}
           />
         </View>
       </>
@@ -65,7 +61,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     grid_size: state.grid_size,
-    current_player: state.set_current_player,
+    current_player: state.set_current_player
   };
 };
 

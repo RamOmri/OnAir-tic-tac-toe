@@ -37,7 +37,7 @@ class Board extends Component {
         {this.props.grid_size >= 4 && (
           <View style={styles.column_container}>{this.render_column()}</View>
         )}
-        {this.props.grid_size == 5 && (
+        {this.props.grid_size >= 5 && (
           <View style={styles.column_container}>{this.render_column()}</View>
         )}
       </View>
