@@ -11,51 +11,63 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-
 import {connect} from 'react-redux';
-import { set_gridsize } from '../actions';
+import {add_column, set_gridsize} from '../actions';
+import Cell from './Cell';
 
 class Board extends Component {
-  form_grid = () => {
-    let components = [];
-    for(let i = 0; i < this.props.numCells; i++){
-
+  render_column = () => {
+    let cells = [];
+    let board_column = []
+    for (let i = 0; i < this.props.grid_size; i++) {
+      cells.push(<Cell key={i} />);
+      board_column.push(0)
     }
-
-    return components;
+    this.props.add_column(board_column)
+    return cells;
   };
 
   render() {
     return (
       <View style={styles.container}>
-        {this.form_grid()}
-        <Text>{this.props.grid_size}</Text>
+        <View style={styles.column_container}>{this.render_column()}</View>
+        <View style={styles.column_container}>{this.render_column()}</View>
+        <View style={styles.column_container}>{this.render_column()}</View>
+
+        {this.props.grid_size >= 4 && (
+          <View style={styles.column_container}>{this.render_column()}</View>
+        )}
+        {this.props.grid_size == 5 && (
+          <View style={styles.column_container}>{this.render_column()}</View>
+        )}
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    margin: 50,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor:'white'
+  },
+  column_container: {
     backgroundColor: '#f0eeed',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 100,
   },
 });
 
+const mapStateToProps = state => {
+  return {
+    grid_size: state.grid_size,
+  };
+};
 
-const mapStateToProps = (state) => {
-    return {
-      grid_size: state.grid_size,
-    };
+const mapDispatchToProps = dispatch => {
+  return {
+    set_gridsize: size => dispatch(set_gridsize(size)),
+    add_column: cells => dispatch(add_column(cells))
   };
-  
-  const mapDispatchToProps = (dispatch) => {
-    return {
-      set_gridsize: (size) => dispatch(set_gridsize(size)),
-    };
-  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);

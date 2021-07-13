@@ -12,39 +12,46 @@ import {
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import { set_gridsize } from '../actions';
+import {set_gridsize} from '../actions';
 
- class Cell extends Component {
+class Cell extends Component {
   render() {
     return (
-    <View style={styles.container}>
+        <TouchableOpacity
+        onPress = {()=>{
+            console.log(this.props.board_map)
+        }}
+        >
+      <View
+        style={{
+          backgroundColor: '#f1f1f1',
+          borderColor: 'black',
+          borderWidth: 5,
+          width:Dimensions.get('window').width/this.props.grid_size - 5,
+          height: Dimensions.get('window').width/this.props.grid_size - 5,
+        }}>
+            
 
-
-    </View>);
+        </View>
+        </TouchableOpacity>
+    );
   }
 }
 const styles = StyleSheet.create({
-  container: {
-    flex:1/this.props.grid_size,
-    margin:50,
-    backgroundColor: '#f0eeed',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+ 
 });
 
-
-
-const mapStateToProps = (state) => {
-    return {
-      grid_size: state.grid_size,
-    };
+const mapStateToProps = state => {
+  return {
+    grid_size: state.grid_size,
+    board_map: state.board_map
   };
-  
-  const mapDispatchToProps = (dispatch) => {
-    return {
-      set_gridsize: (size) => dispatch(set_gridsize(size)),
-    };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    set_gridsize: size => dispatch(set_gridsize(size)),
   };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cell);

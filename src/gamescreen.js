@@ -19,10 +19,11 @@ import Board from './components/Board'
 class GameScreen extends Component {
   
   render() {
-    console.log(this.props.grid_size)
     return (
         <>
-        <View style = {{flex:1, backgroundColor:'black'}}>
+        <View style = {styles.container}>
+            <Image source = {require('./img/onair-black-logo.png')} 
+            style = {styles.logo}/>
             <Board />
         </View>
         
@@ -33,10 +34,16 @@ class GameScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#131212',
+    backgroundColor: '#141414',
     alignItems: 'center',
-    justifyContent: 'center',
     paddingBottom: 100,
+  },
+  logo: {
+    marginTop: 25,
+    width: Dimensions.get('window').width / 2,
+    height: Dimensions.get('window').width / 5,
+    marginBottom:5,
+    resizeMode: 'stretch',
   },
 });
 

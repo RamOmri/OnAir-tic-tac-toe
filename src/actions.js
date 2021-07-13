@@ -1,4 +1,10 @@
+import { SET_GRIDSIZE, ADD_COLUMN } from "./types";
+
 export const set_gridsize = (size) => ({
-    type: ADD_DOC,
+    type: SET_GRIDSIZE,
     data: size,
+  });
+  export const add_column = (cells) => ({
+    type: ADD_COLUMN,
+    data: cells,
   });

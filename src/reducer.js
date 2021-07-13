@@ -1,7 +1,9 @@
-import {SET_GRIDSIZE} from './types'
+import { stat } from 'fs';
+import {ADD_COLUMN, SET_GRIDSIZE} from './types'
 
 const initState = {
-    grid_size : 3
+    grid_size : 3,
+    board_map: []
 }
 
 const reducer = (state = initState, action) => {
@@ -10,6 +12,11 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         grid_size: action.data
+    }
+    case ADD_COLUMN:
+      return {
+        ...state,
+        board_map: [...state.board_map, action.data]
     }
     default:
       return state;
