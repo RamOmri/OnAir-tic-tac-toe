@@ -20,6 +20,7 @@ class GameScreen extends Component {
   
 
   onNextTurn = () =>{
+    console.log(this.props.board_map)
   }
   render() {
     return (
@@ -65,6 +66,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     grid_size: state.grid_size,
+    board_map: state.board_map,
     current_player: state.set_current_player
   };
 };

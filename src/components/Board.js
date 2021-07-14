@@ -27,19 +27,22 @@ class Board extends Component {
   }
 
   onMoveMade = (x, y) => {
-    this.set_player();
-    this.props.onNextTurn();
+
     this.state.cells[x][y] = (
       <Image
         style={{
           width: Dimensions.get('window').width / this.props.grid_size - 5,
           height: Dimensions.get('window').width / this.props.grid_size - 5,
           resizeMode: 'stretch',
+          borderWidth:6,
+          borderColor:'black',
           borderRadius: 20,
         }}
         source={this.set_cell_identity()}
       />
     );
+    this.set_player();
+    this.props.onNextTurn();
   };
   set_cell_identity = () => {
     if (this.props.current_player == 'crosses') {
