@@ -19,7 +19,6 @@ class Board extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      refs: [],
       cells: [],
     };
     for (let i = 0; i < this.props.grid_size; i++) {
@@ -33,8 +32,8 @@ class Board extends Component {
     this.state.cells[x][y] = (
       <Image
         style={{
-          width: Dimensions.get('window').width / this.props.grid_size - 9,
-          height: Dimensions.get('window').width / this.props.grid_size - 9,
+          width: Dimensions.get('window').width / this.props.grid_size - 5,
+          height: Dimensions.get('window').width / this.props.grid_size - 5,
           resizeMode: 'stretch',
           borderRadius: 20,
         }}
@@ -60,7 +59,7 @@ class Board extends Component {
     for (let i = 0; i < this.props.grid_size; i++) {
       cells.push(
         <Cell
-          key={i} /* ref={instance => { this.state.refs.push(instance)}} */
+          key={i} 
           onMoveMade={(x, y) => this.onMoveMade(x, y)}
           xIndex={x}
           yIndex={i}

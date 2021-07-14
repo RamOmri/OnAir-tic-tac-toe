@@ -16,31 +16,13 @@ import {set_current_player} from '../actions';
 
 class Cell extends Component {
   state = {
-    identity: null,
-    image: null,
     xIndex:this.props.xIndex,
     yIndex:this.props.yIndex
   };
 
   handlePress = () => {
     this.props.onMoveMade(this.state.xIndex, this.state.yIndex)
-    if(true) return
-    this.set_cell_identity();
-    
   };
-
-  set_cell_identity = () => {
-    if (this.props.current_player == 'crosses') {
-      this.setState({identity: 'crosses',
-    image: require('../img/Cross-red.png')});
-
-    } else {
-      this.setState({identity: 'knots',
-    image: require('../img/Knot-red.png')});
-    }
- 
-  };
-
 
   render() {
     return (
@@ -55,19 +37,6 @@ class Cell extends Component {
             width: Dimensions.get('window').width / this.props.grid_size - 5,
             height: Dimensions.get('window').width / this.props.grid_size - 5,
           }}>
-          {this.state.identity && (
-            <Image
-              style={{
-                width:
-                  Dimensions.get('window').width / this.props.grid_size - 9,
-                height:
-                  Dimensions.get('window').width / this.props.grid_size - 9,
-                resizeMode: 'stretch',
-                borderRadius: 20,
-              }}
-              source={this.state.image}
-            />
-          )}
         </View>
       </TouchableOpacity>
     );
