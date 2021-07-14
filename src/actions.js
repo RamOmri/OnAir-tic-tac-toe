@@ -12,3 +12,8 @@ export const set_gridsize = (size) => ({
     type: SET_CURRENT_PLAYER,
     data: player
   })
+  export const update_board_map = (new_map)=>({
+    type: SET_CURRENT_PLAYER,
+    data: new_map
+  })
+

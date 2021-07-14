@@ -17,6 +17,10 @@ import {set_current_player} from './actions';
 import Board from './components/Board';
 
 class GameScreen extends Component {
+  
+
+  onNextTurn = () =>{
+  }
   render() {
     return (
       <>
@@ -25,10 +29,7 @@ class GameScreen extends Component {
             source={require('./img/onair-black-logo.png')}
             style={styles.logo}
           />
-          <TouchableOpacity
-          onPress = {console.log('here')}>
-          <Board />
-          </TouchableOpacity>
+          <Board onNextTurn = {this.onNextTurn}/>
           <Image
             style={styles.currentPlayer}
             source={this.props.current_player == 'knots' ? require('./img/Knot-red.png'): require('./img/Cross-red.png')}

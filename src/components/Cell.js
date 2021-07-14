@@ -17,14 +17,18 @@ import {set_current_player} from '../actions';
 class Cell extends Component {
   state = {
     identity: null,
-    image: null
+    image: null,
+    xIndex:this.props.xIndex,
+    yIndex:this.props.yIndex
   };
 
   handlePress = () => {
+    this.props.onMoveMade(this.state.xIndex, this.state.yIndex)
+    if(true) return
     this.set_cell_identity();
-    this.props.onMoveMade()
+    
   };
-  
+
   set_cell_identity = () => {
     if (this.props.current_player == 'crosses') {
       this.setState({identity: 'crosses',
@@ -74,8 +78,8 @@ const styles = StyleSheet.create({});
 const mapStateToProps = state => {
   return {
     grid_size: state.grid_size,
-    board_map: state.board_map,
     current_player: state.current_player,
+    board_map: state.board_map
   };
 };
 
