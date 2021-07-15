@@ -75,6 +75,16 @@ class GameScreen extends Component {
             source={this.props.current_player == 'knots' ? require('./img/Knot-green.png'): require('./img/Knot-red.png')}
           />
           </View>
+          <TouchableOpacity style = {styles.button}
+          onPress = {()=>{
+            this.props.reset_game()
+            this.props.navigation.pop()
+          }}
+          >
+            <Text style = {{fontSize:14,  color:'white'}}>
+              start a new game
+            </Text>
+          </TouchableOpacity>
         </View>
       </>
     );
@@ -89,7 +99,7 @@ const styles = StyleSheet.create({
   },
   text:{
     color: 'white',
-    fontSize:30,
+    fontSize:25,
     marginTop: 18
   },
   board:{
@@ -97,11 +107,19 @@ const styles = StyleSheet.create({
     borderWidth:6,
     borderColor:'white',
   },  
-  currentPlayer: {
-    height: Dimensions.get('window').width / 3,
-    width: Dimensions.get('window').width / 3,
-    resizeMode: 'stretch',
+  button: {
     marginTop: 20,
+    width: 160,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#e31414',
+    borderRadius: 50,
+  },
+  currentPlayer: {
+    height: Dimensions.get('window').width / 4,
+    width: Dimensions.get('window').width / 4,
+    resizeMode: 'stretch',
     margin:10,
     borderRadius: 20,
   },
