@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import {add_column, set_gridsize, set_current_player} from '../actions';
+import {add_column, set_gridsize, set_current_player} from '../redux/actions';
 import Cell from './Cell';
 
 class Board extends Component {
@@ -29,12 +29,12 @@ class Board extends Component {
   set_columns = x => {
     let cells = [];
     let board_column = [];
-    
+
     for (let i = 0; i < this.props.grid_size; i++) {
-     let key = i + this.state.cells.length*this.props.grid_size
+      let key = i + this.state.cells.length * this.props.grid_size;
       cells.push(
         <Cell
-          key={key} 
+          key={key}
           onMoveMade={(x, y, key) => this.onMoveMade(x, y, key)}
           xIndex={x}
           yIndex={i}
@@ -47,21 +47,21 @@ class Board extends Component {
   };
 
   onMoveMade = (x, y, key) => {
-
-    this.state.cells[x][y] = (
+    this.state.cells[x].splice(y,1,(
       <Image
-      key = {key}
+        key={key}
         style={{
           width: Dimensions.get('window').width / this.props.grid_size - 5,
           height: Dimensions.get('window').width / this.props.grid_size - 5,
           resizeMode: 'stretch',
-          borderWidth:6,
-          borderColor:'black',
+          borderWidth: 6,
+          borderColor: 'black',
           borderRadius: 20,
         }}
         source={this.set_cell_identity()}
       />
-    );
+    ))
+
     this.set_player();
     this.props.onNextTurn();
   };

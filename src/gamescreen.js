@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import {set_current_player} from './actions';
+import {set_current_player} from './redux/actions';
 
 import Board from './components/Board';
 
@@ -30,7 +30,9 @@ class GameScreen extends Component {
             source={require('./img/onair-black-logo.png')}
             style={styles.logo}
           />
-          <Board onNextTurn = {this.onNextTurn}/>
+          <View style = {styles.board} >
+           <Board onNextTurn = {this.onNextTurn}/>
+          </View>
           <Image
             style={styles.currentPlayer}
             source={this.props.current_player == 'knots' ? require('./img/Knot-red.png'): require('./img/Cross-red.png')}
@@ -47,6 +49,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: 100,
   },
+  board:{
+    marginTop:8,
+    borderWidth:6,
+    borderColor:'white',
+  },  
   currentPlayer: {
     height: Dimensions.get('window').width / 3,
     width: Dimensions.get('window').width / 3,

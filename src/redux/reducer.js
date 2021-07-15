@@ -1,4 +1,4 @@
-import { stat } from 'fs';
+
 import {ADD_COLUMN, SET_GRIDSIZE, SET_CURRENT_PLAYER} from './types'
 
 const initState = {

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import {set_gridsize} from './actions';
+import {set_gridsize} from './redux/actions';
 
 class settingsscreen extends Component {
   render() {

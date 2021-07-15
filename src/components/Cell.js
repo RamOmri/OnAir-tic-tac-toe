@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import {set_current_player} from '../actions';
+import {set_current_player} from '../redux/actions';
 
 class Cell extends Component {
   state = {
