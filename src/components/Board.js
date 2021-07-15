@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import {add_column, set_gridsize, set_current_player, update_board_map} from '../redux/actions';
+import {add_column, set_gridsize, set_current_player, update_board_map, set_winner} from '../redux/actions';
 import Cell from './Cell';
 
 class Board extends Component {
@@ -50,24 +50,27 @@ class Board extends Component {
     let key = y + this.props.grid_size * x
     let obj = {x: x, y: y, val: this.props.current_player  == 'crosses'? 'crosses': 'knots' }
 
-    //must update board_map and cell before setting the next player
+    //must check for winner and update board_map and cell before setting the next player
     this.props.update_board_map(obj) 
-    this.set_player();  
     this.change_cell(x, y, key);
+    if(this.check_for_winner() === true){
+      this.props.set_winner(this.props.current_player)
+    }
+    this.set_player();  
+    
 
     this.props.onNextTurn();
     console.log(this.props.board_map)
   };
-
-  change_cell = (x, y, key) => {
+   change_cell = (x, y, key) => {
     this.state.cells[x].splice(
       y,
       1,
       <Image
         key={key}
         style={{
-          width: Dimensions.get('window').width / this.props.grid_size - 5,
-          height: Dimensions.get('window').width / this.props.grid_size - 5,
+          width: Dimensions.get('window').width / this.props.grid_size - 8,
+          height: Dimensions.get('window').width / this.props.grid_size - 8,
           resizeMode: 'stretch',
           borderWidth: 6,
           borderColor: 'black',
@@ -77,11 +80,7 @@ class Board extends Component {
       />,
     );
   };
-  set_player = () => {
-    this.props.set_current_player(
-      this.props.current_player == 'crosses' ? 'knots' : 'crosses',
-    );
-  };
+  
   set_cell_identity = () => {
     if (this.props.current_player == 'crosses') {
       return require('../img/Cross-red.png');
@@ -89,6 +88,56 @@ class Board extends Component {
       return require('../img/Knot-red.png');
     }
   };
+  check_for_winner = () =>{
+    let player = this.props.current_player
+    let opponent = player == 'crosses' ? 'knots' : 'crosses'
+    if(this.check_for_vertical_win(opponent) == true) return true
+   else if( this.check_for_horizontal_win(player)) return true
+   else if(this.check_for_diagonal_win(player)) return true
+
+   return false
+  }
+  check_for_vertical_win = (opponent) => {
+    for(let i = 0; i < this.props.grid_size; i++){
+      if(!this.props.board_map[i].includes(opponent) && !this.props.board_map[i].includes(null)){
+        return true
+      }
+    }
+    return false
+  }
+  check_for_horizontal_win = (player) => {
+    for(let i = 0; i < this.props.grid_size; i++){
+      let streak = 0
+      for(let  j = 0; j < this.props.grid_size; j++){
+        if(player == this.props.board_map[j][i]) streak++
+        else if (!null) break
+      }
+      if(streak == this.props.grid_size) return true
+    }
+    return false
+  }
+  check_for_diagonal_win = (player) => {
+    let streak = 0
+      for(let j = 0; j < this.props.grid_size; j++){
+        if(this.props.board_map[j][j] == player) streak++
+        else if(!null) break
+      }
+      if(streak == this.props.grid_size) return true
+      else streak = 0
+      for(let i = 0; i < this.props.grid_size; i++){
+        if(this.props.board_map[i][this.props.grid_size - 1 - i] == player) streak++
+        else if(!null) break
+      }
+      if(streak == this.props.grid_size) return true
+      else return false
+    
+  }
+  set_player = () => {
+      this.props.set_current_player(
+        this.props.current_player == 'crosses' ? 'knots' : 'crosses',
+      );
+    };
+ 
 
   render() {
     return (
@@ -124,7 +173,8 @@ const mapStateToProps = state => {
   return {
     grid_size: state.grid_size,
     current_player: state.current_player,
-    board_map: state.board_map
+    board_map: state.board_map,
+    winner: state.winner
   };
 };
 
@@ -133,7 +183,8 @@ const mapDispatchToProps = dispatch => {
     set_gridsize: size => dispatch(set_gridsize(size)),
     add_column: cells => dispatch(add_column(cells)),
     set_current_player: player => dispatch(set_current_player(player)),
-    update_board_map : obj => dispatch(update_board_map(obj))
+    update_board_map : obj => dispatch(update_board_map(obj)),
+    set_winner: winner => dispatch(set_winner(winner))
   };
 };
 

@@ -9,19 +9,24 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  BackHandler,
 } from 'react-native';
 
 import {connect} from 'react-redux';
 import {set_current_player} from '../redux/actions';
 
 class Cell extends Component {
-  state = {
-    xIndex:this.props.xIndex,
-    yIndex:this.props.yIndex
-  };
+  constructor(props) {
+    super(props);
+    state = {
+      xIndex: this.props.xIndex,
+      yIndex: this.props.yIndex,
+    };
+  }
 
   handlePress = () => {
-    this.props.onMoveMade(this.state.xIndex, this.state.yIndex, this.props.key)
+    if (this.props.winner) return;
+    this.props.onMoveMade(this.state.xIndex, this.state.yIndex, this.props.key);
   };
 
   render() {
@@ -34,10 +39,9 @@ class Cell extends Component {
             borderWidth: 5,
             justifyContent: 'center',
             alignItems: 'center',
-            width: Dimensions.get('window').width / this.props.grid_size - 5,
-            height: Dimensions.get('window').width / this.props.grid_size - 5,
-          }}>
-        </View>
+            width: Dimensions.get('window').width / this.props.grid_size - 8,
+            height: Dimensions.get('window').width / this.props.grid_size - 8,
+          }}></View>
       </TouchableOpacity>
     );
   }
@@ -48,7 +52,8 @@ const mapStateToProps = state => {
   return {
     grid_size: state.grid_size,
     current_player: state.current_player,
-    board_map: state.board_map
+    board_map: state.board_map,
+    winner: state.winner,
   };
 };
 

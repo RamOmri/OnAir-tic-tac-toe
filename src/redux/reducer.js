@@ -3,12 +3,14 @@ import {
   SET_GRIDSIZE,
   SET_CURRENT_PLAYER,
   MODIFY_BOARD_MAP,
+  SET_WINNER
 } from './types';
 
 const initState = {
   grid_size: 3,
   board_map: [],
   current_player: 'crosses',
+  winner: null
 };
 
 const reducer = (state = initState, action) => {
@@ -37,6 +39,11 @@ const reducer = (state = initState, action) => {
         ...state,
         board_map: newBoard_map,
       };
+    case SET_WINNER:
+      return{
+        ...state,
+        winner: action.data
+      }
 
     default:
       return state;
