@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import {add_column, set_gridsize, set_current_player} from '../redux/actions';
+import {add_column, set_gridsize, set_current_player, update_board_map} from '../redux/actions';
 import Cell from './Cell';
 
 class Board extends Component {
@@ -26,7 +26,7 @@ class Board extends Component {
     }
   }
 
-  set_columns = x => {
+  set_columns =( x )=> {
     let cells = [];
     let board_column = [];
 
@@ -35,19 +35,34 @@ class Board extends Component {
       cells.push(
         <Cell
           key={key}
-          onMoveMade={(x, y, key) => this.onMoveMade(x, y, key)}
+          onMoveMade={(x, y) => this.onMoveMade(x, y)}
           xIndex={x}
           yIndex={i}
         />,
       );
-      board_column.push(0);
+      board_column.push(null);
     }
     this.state.cells.push(cells);
     this.props.add_column(board_column);
   };
 
-  onMoveMade = (x, y, key) => {
-    this.state.cells[x].splice(y,1,(
+  onMoveMade = (x, y) => {
+    let key = y + this.props.grid_size * x
+    let obj = {x: x, y: y, val: this.props.current_player  == 'crosses'? 'crosses': 'knots' }
+
+    //must update board_map and cell before setting the next player
+    this.props.update_board_map(obj) 
+    this.set_player();  
+    this.change_cell(x, y, key);
+
+    this.props.onNextTurn();
+    console.log(this.props.board_map)
+  };
+
+  change_cell = (x, y, key) => {
+    this.state.cells[x].splice(
+      y,
+      1,
       <Image
         key={key}
         style={{
@@ -59,11 +74,13 @@ class Board extends Component {
           borderRadius: 20,
         }}
         source={this.set_cell_identity()}
-      />
-    ))
-
-    this.set_player();
-    this.props.onNextTurn();
+      />,
+    );
+  };
+  set_player = () => {
+    this.props.set_current_player(
+      this.props.current_player == 'crosses' ? 'knots' : 'crosses',
+    );
   };
   set_cell_identity = () => {
     if (this.props.current_player == 'crosses') {
@@ -71,11 +88,6 @@ class Board extends Component {
     } else {
       return require('../img/Knot-red.png');
     }
-  };
-  set_player = () => {
-    this.props.set_current_player(
-      this.props.current_player == 'crosses' ? 'knots' : 'crosses',
-    );
   };
 
   render() {
@@ -112,6 +124,7 @@ const mapStateToProps = state => {
   return {
     grid_size: state.grid_size,
     current_player: state.current_player,
+    board_map: state.board_map
   };
 };
 
@@ -120,6 +133,7 @@ const mapDispatchToProps = dispatch => {
     set_gridsize: size => dispatch(set_gridsize(size)),
     add_column: cells => dispatch(add_column(cells)),
     set_current_player: player => dispatch(set_current_player(player)),
+    update_board_map : obj => dispatch(update_board_map(obj))
   };
 };
 

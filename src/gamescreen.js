@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import {set_current_player} from './redux/actions';
+import {set_current_player, update_board_map} from './redux/actions';
 
 import Board from './components/Board';
 
@@ -20,7 +20,7 @@ class GameScreen extends Component {
   
 
   onNextTurn = () =>{
-    console.log(this.props.board_map)
+    
   }
   render() {
     return (

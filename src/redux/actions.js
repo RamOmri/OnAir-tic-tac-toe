@@ -1,4 +1,4 @@
-import { SET_GRIDSIZE, ADD_COLUMN, SET_CURRENT_PLAYER } from "./types";
+import { SET_GRIDSIZE, ADD_COLUMN, SET_CURRENT_PLAYER, MODIFY_BOARD_MAP } from "./types";
 
 export const set_gridsize = (size) => ({
     type: SET_GRIDSIZE,
@@ -12,8 +12,8 @@ export const set_gridsize = (size) => ({
     type: SET_CURRENT_PLAYER,
     data: player
   })
-  export const update_board_map = (new_map)=>({
-    type: SET_CURRENT_PLAYER,
-    data: new_map
+  export const update_board_map = (obj)=>({
+    type: MODIFY_BOARD_MAP,
+    data: obj
   })
 
