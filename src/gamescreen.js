@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {
   SafeAreaView,
+  BackHandler,
+  Alert,
   StyleSheet,
   ScrollView,
   View,
@@ -12,13 +14,36 @@ import {
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import {set_current_player, update_board_map} from './redux/actions';
+import {set_current_player, update_board_map, reset_game} from './redux/actions';
 
 import Board from './components/Board';
 
 class GameScreen extends Component {
-  
+  constructor(props){
+    super(props)
+    BackHandler.addEventListener(
+      'hardwareBackPress',
+      this.handleBackButtonClick,
+    );
+  }
 
+  handleBackButtonClick = () => {
+    Alert.alert('', 
+    'Are you sure that you want to quit the game?',
+     [
+      {
+        text: 'Yes',
+        onPress: () => {
+          this.props.reset_game()
+          this.props.navigation.popToTop()
+        }
+      },
+      {
+        text: 'No',
+      },
+    ]);
+    return true
+  };
   onNextTurn = () =>{
     
   }
@@ -80,6 +105,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    reset_game: () => dispatch(reset_game()),
     set_current_player: player => dispatch(set_current_player(player)),
   };
 };

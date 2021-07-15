@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {
   SafeAreaView,
+  Alert,
   StyleSheet,
   ScrollView,
   View,
@@ -18,7 +19,7 @@ import {set_current_player} from '../redux/actions';
 class Cell extends Component {
   constructor(props) {
     super(props);
-    state = {
+    this.state = {
       xIndex: this.props.xIndex,
       yIndex: this.props.yIndex,
     };

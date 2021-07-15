@@ -6,12 +6,22 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  BackHandler
 } from 'react-native';
 
 import {connect} from 'react-redux';
 import {set_gridsize} from './redux/actions';
 
 class settingsscreen extends Component {
+  constructor(props){
+    super(props)
+      BackHandler.addEventListener(
+        'hardwareBackPress',
+       () =>{return true},
+      );
+    
+  }
+
   render() {
     return (
       <View style={styles.container}>

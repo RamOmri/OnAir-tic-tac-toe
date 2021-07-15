@@ -3,7 +3,8 @@ import {
   SET_GRIDSIZE,
   SET_CURRENT_PLAYER,
   MODIFY_BOARD_MAP,
-  SET_WINNER
+  SET_WINNER,
+  RESET_GAME
 } from './types';
 
 const initState = {
@@ -44,6 +45,8 @@ const reducer = (state = initState, action) => {
         ...state,
         winner: action.data
       }
+    case RESET_GAME:
+      return {...initState}
 
     default:
       return state;

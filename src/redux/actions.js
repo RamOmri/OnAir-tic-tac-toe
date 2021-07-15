@@ -1,4 +1,4 @@
-import { SET_GRIDSIZE, ADD_COLUMN, SET_CURRENT_PLAYER, MODIFY_BOARD_MAP, SET_WINNER} from "./types";
+import { SET_GRIDSIZE, ADD_COLUMN, SET_CURRENT_PLAYER, MODIFY_BOARD_MAP, SET_WINNER, RESET_GAME} from "./types";
 
 export const set_gridsize = (size) => ({
     type: SET_GRIDSIZE,
@@ -19,5 +19,8 @@ export const set_gridsize = (size) => ({
   export const set_winner = (winner) =>({
     type: SET_WINNER,
     data: winner
+  })
+  export const reset_game = () =>({
+    type: RESET_GAME
   })
 
