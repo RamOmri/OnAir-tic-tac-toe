@@ -26,10 +26,31 @@ class Board extends Component {
     }
   }
 
-  onMoveMade = (x, y) => {
+  set_columns = x => {
+    let cells = [];
+    let board_column = [];
+    
+    for (let i = 0; i < this.props.grid_size; i++) {
+     let key = i + this.state.cells.length*this.props.grid_size
+      cells.push(
+        <Cell
+          key={key} 
+          onMoveMade={(x, y, key) => this.onMoveMade(x, y, key)}
+          xIndex={x}
+          yIndex={i}
+        />,
+      );
+      board_column.push(0);
+    }
+    this.state.cells.push(cells);
+    this.props.add_column(board_column);
+  };
+
+  onMoveMade = (x, y, key) => {
 
     this.state.cells[x][y] = (
       <Image
+      key = {key}
         style={{
           width: Dimensions.get('window').width / this.props.grid_size - 5,
           height: Dimensions.get('window').width / this.props.grid_size - 5,
@@ -55,23 +76,6 @@ class Board extends Component {
     this.props.set_current_player(
       this.props.current_player == 'crosses' ? 'knots' : 'crosses',
     );
-  };
-  set_columns = x => {
-    let cells = [];
-    let board_column = [];
-    for (let i = 0; i < this.props.grid_size; i++) {
-      cells.push(
-        <Cell
-          key={i} 
-          onMoveMade={(x, y) => this.onMoveMade(x, y)}
-          xIndex={x}
-          yIndex={i}
-        />,
-      );
-      board_column.push(0);
-    }
-    this.state.cells.push(cells);
-    this.props.add_column(board_column);
   };
 
   render() {

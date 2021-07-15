@@ -21,7 +21,7 @@ class Cell extends Component {
   };
 
   handlePress = () => {
-    this.props.onMoveMade(this.state.xIndex, this.state.yIndex)
+    this.props.onMoveMade(this.state.xIndex, this.state.yIndex, this.props.key)
   };
 
   render() {
