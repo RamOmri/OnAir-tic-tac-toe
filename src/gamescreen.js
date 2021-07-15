@@ -21,6 +21,10 @@ import Board from './components/Board';
 class GameScreen extends Component {
   constructor(props){
     super(props)
+    this.state = {
+      currentPlayer: this.props.currentPlayer
+    }
+    super(props)
     BackHandler.addEventListener(
       'hardwareBackPress',
       this.handleBackButtonClick,
@@ -45,7 +49,7 @@ class GameScreen extends Component {
     return true
   };
   onNextTurn = () =>{
-    
+    this.setState({currentPlayer: this.props.currentPlayer})
   }
   render() {
     return (
@@ -58,10 +62,19 @@ class GameScreen extends Component {
           <View style = {styles.board} >
            <Board onNextTurn = {this.onNextTurn}/>
           </View>
+          <Text style = {styles.text}>
+            Current player
+          </Text>
+          <View style = {{flexDirection:'row'}}>
           <Image
             style={styles.currentPlayer}
-            source={this.props.current_player == 'knots' ? require('./img/Knot-red.png'): require('./img/Cross-red.png')}
+            source={this.props.current_player == 'crosses' ? require('./img/Cross-green.png'): require('./img/Cross-red.png')}
           />
+          <Image
+            style={styles.currentPlayer}
+            source={this.props.current_player == 'knots' ? require('./img/Knot-green.png'): require('./img/Knot-red.png')}
+          />
+          </View>
         </View>
       </>
     );
@@ -74,6 +87,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: 100,
   },
+  text:{
+    color: 'white',
+    fontSize:30,
+    marginTop: 18
+  },
   board:{
     marginTop:8,
     borderWidth:6,
@@ -84,6 +102,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width / 3,
     resizeMode: 'stretch',
     marginTop: 20,
+    margin:10,
     borderRadius: 20,
   },
   logo: {
@@ -99,7 +118,7 @@ const mapStateToProps = state => {
   return {
     grid_size: state.grid_size,
     board_map: state.board_map,
-    current_player: state.set_current_player
+    current_player: state.current_player
   };
 };
 
