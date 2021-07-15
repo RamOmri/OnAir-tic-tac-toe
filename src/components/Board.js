@@ -14,7 +14,7 @@ import {
 import {connect} from 'react-redux';
 import {add_column, set_gridsize, set_current_player, update_board_map, set_winner} from '../redux/actions';
 import Cell from './Cell';
-
+import checkForWinner from './checkForWinner';
 class Board extends Component {
   constructor(props) {
     super(props);
@@ -53,14 +53,11 @@ class Board extends Component {
     //must check for winner and update board_map and cell before setting the next player
     this.props.update_board_map(obj) 
     this.change_cell(x, y, key);
-    if(this.check_for_winner() === true){
+    if(checkForWinner(this.props.current_player, this.props.grid_size, this.props.board_map)){
       this.props.set_winner(this.props.current_player)
     }
-    this.set_player();  
-    
-
+    else this.set_player();    
     this.props.onNextTurn();
-    console.log(this.props.board_map)
   };
    change_cell = (x, y, key) => {
     this.state.cells[x].splice(
@@ -88,50 +85,7 @@ class Board extends Component {
       return require('../img/Knot-red.png');
     }
   };
-  check_for_winner = () =>{
-    let player = this.props.current_player
-    let opponent = player == 'crosses' ? 'knots' : 'crosses'
-    if(this.check_for_vertical_win(opponent) == true) return true
-   else if( this.check_for_horizontal_win(player)) return true
-   else if(this.check_for_diagonal_win(player)) return true
-
-   return false
-  }
-  check_for_vertical_win = (opponent) => {
-    for(let i = 0; i < this.props.grid_size; i++){
-      if(!this.props.board_map[i].includes(opponent) && !this.props.board_map[i].includes(null)){
-        return true
-      }
-    }
-    return false
-  }
-  check_for_horizontal_win = (player) => {
-    for(let i = 0; i < this.props.grid_size; i++){
-      let streak = 0
-      for(let  j = 0; j < this.props.grid_size; j++){
-        if(player == this.props.board_map[j][i]) streak++
-        else if (!null) break
-      }
-      if(streak == this.props.grid_size) return true
-    }
-    return false
-  }
-  check_for_diagonal_win = (player) => {
-    let streak = 0
-      for(let j = 0; j < this.props.grid_size; j++){
-        if(this.props.board_map[j][j] == player) streak++
-        else if(!null) break
-      }
-      if(streak == this.props.grid_size) return true
-      else streak = 0
-      for(let i = 0; i < this.props.grid_size; i++){
-        if(this.props.board_map[i][this.props.grid_size - 1 - i] == player) streak++
-        else if(!null) break
-      }
-      if(streak == this.props.grid_size) return true
-      else return false
-    
-  }
+ 
   set_player = () => {
       this.props.set_current_player(
         this.props.current_player == 'crosses' ? 'knots' : 'crosses',

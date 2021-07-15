@@ -14,43 +14,49 @@ import {
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import {set_current_player, update_board_map, reset_game} from './redux/actions';
+import {
+  set_current_player,
+  update_board_map,
+  reset_game,
+} from './redux/actions';
 
 import Board from './components/Board';
 
 class GameScreen extends Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
-      currentPlayer: this.props.currentPlayer
-    }
-    super(props)
+      counter: 0,
+    };
     BackHandler.addEventListener(
       'hardwareBackPress',
       this.handleBackButtonClick,
     );
   }
-
+  componentWillUnmount() {
+    BackHandler.removeEventListener(
+      'hardwareBackPress',
+      this.handleBackButtonClick,
+    );
+  }
   handleBackButtonClick = () => {
-    Alert.alert('', 
-    'Are you sure that you want to quit the game?',
-     [
+    Alert.alert('', 'Are you sure that you want to quit the game?', [
       {
         text: 'Yes',
         onPress: () => {
-          this.props.reset_game()
-          this.props.navigation.popToTop()
-        }
+          this.props.reset_game();
+          this.props.navigation.popToTop();
+        },
       },
       {
         text: 'No',
       },
     ]);
-    return true
+    return true;
   };
-  onNextTurn = () =>{
-    this.setState({currentPlayer: this.props.currentPlayer})
-  }
+  onNextTurn = () => {
+    this.setState({counter: this.state.counter++});
+  };
   render() {
     return (
       <>
@@ -59,30 +65,38 @@ class GameScreen extends Component {
             source={require('./img/onair-black-logo.png')}
             style={styles.logo}
           />
-          <View style = {styles.board} >
-           <Board onNextTurn = {this.onNextTurn}/>
+          <View style={styles.board}>
+            <Board onNextTurn={this.onNextTurn} />
           </View>
-          <Text style = {styles.text}>
-            Current player
+          <Text style={styles.text}>
+            {(!this.props.winner && 'Current player') || 'Winner!!!'}
           </Text>
-          <View style = {{flexDirection:'row'}}>
-          <Image
-            style={styles.currentPlayer}
-            source={this.props.current_player == 'crosses' ? require('./img/Cross-green.png'): require('./img/Cross-red.png')}
-          />
-          <Image
-            style={styles.currentPlayer}
-            source={this.props.current_player == 'knots' ? require('./img/Knot-green.png'): require('./img/Knot-red.png')}
-          />
+          <View style={{flexDirection: 'row'}}>
+            <Image
+              style={styles.currentPlayer}
+              source={
+                this.props.current_player == 'crosses'
+                  ? require('./img/Cross-green.png')
+                  : require('./img/Cross-red.png')
+              }
+            />
+            <Image
+              style={styles.currentPlayer}
+              source={
+                this.props.current_player == 'knots'
+                  ? require('./img/Knot-green.png')
+                  : require('./img/Knot-red.png')
+              }
+            />
           </View>
-          <TouchableOpacity style = {styles.button}
-          onPress = {()=>{
-            this.props.reset_game()
-            this.props.navigation.pop()
-          }}
-          >
-            <Text style = {{fontSize:14,  color:'white'}}>
-              start a new game
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              this.props.reset_game();
+              this.props.navigation.pop();
+            }}>
+            <Text style={{fontSize: 14, color: 'white', fontWeight: 'bold'}}>
+              Start A New Game
             </Text>
           </TouchableOpacity>
         </View>
@@ -97,19 +111,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: 100,
   },
-  text:{
+  text: {
     color: 'white',
-    fontSize:25,
-    marginTop: 18
+    fontSize: 25,
+    marginTop: 18,
   },
-  board:{
-    marginTop:8,
-    borderWidth:6,
-    borderColor:'white',
-  },  
+  board: {
+    marginTop: 8,
+    borderWidth: 6,
+    borderColor: 'white',
+  },
   button: {
     marginTop: 20,
-    width: 160,
+    width: 180,
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
@@ -120,7 +134,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').width / 4,
     width: Dimensions.get('window').width / 4,
     resizeMode: 'stretch',
-    margin:10,
+    margin: 10,
     borderRadius: 20,
   },
   logo: {
@@ -136,7 +150,8 @@ const mapStateToProps = state => {
   return {
     grid_size: state.grid_size,
     board_map: state.board_map,
-    current_player: state.current_player
+    current_player: state.current_player,
+    winner: state.winner,
   };
 };
 
