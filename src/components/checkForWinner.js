@@ -1,9 +1,6 @@
 
 
-
-
-    
-  export default checkForWinner = (player, grid_size ,board_map) =>{
+ export default checkForWinner = (player, grid_size ,board_map) =>{
         let opponent = player == 'crosses' ? 'knots' : 'crosses'
         if(check_for_vertical_win(opponent, board_map, grid_size) == true) return true
        else if( check_for_horizontal_win(player, grid_size, board_map)) return true

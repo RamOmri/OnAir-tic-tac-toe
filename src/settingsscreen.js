@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   BackHandler
 } from 'react-native';
+import MiniMaxAgent from './components/MiniMaxAgent';
 
 import {connect} from 'react-redux';
 import {set_gridsize} from './redux/actions';

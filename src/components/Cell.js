@@ -27,7 +27,7 @@ class Cell extends Component {
 
   handlePress = () => {
     if (this.props.winner) return;
-    this.props.onMoveMade(this.state.xIndex, this.state.yIndex, this.props.key);
+    this.props.onMoveMade(this.state.xIndex, this.state.yIndex, this.props.key, 'knots');
   };
 
   render() {

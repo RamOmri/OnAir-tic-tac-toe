@@ -10,23 +10,27 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
+import MiniMaxAgent from './MiniMaxAgent';
 
 import {connect} from 'react-redux';
 import {add_column, set_gridsize, set_current_player, update_board_map, set_winner} from '../redux/actions';
 import Cell from './Cell';
 import checkForWinner from './checkForWinner';
+var cloneDeep = require('lodash.clonedeep');
+
 class Board extends Component {
   constructor(props) {
     super(props);
     this.state = {
       cells: [],
+      agent: new MiniMaxAgent()
     };
     for (let i = 0; i < this.props.grid_size; i++) {
       this.set_columns(i);
     }
   }
 
-  set_columns =( x )=> {
+  set_columns = (x) => {
     let cells = [];
     let board_column = [];
 
@@ -45,19 +49,34 @@ class Board extends Component {
     this.state.cells.push(cells);
     this.props.add_column(board_column);
   };
-
-  onMoveMade = (x, y) => {
+  addfunc = () =>{
+    console.log(this.props.current_player)
+  }
+  onMoveMade = async (x, y) => {
     let key = y + this.props.grid_size * x
     let obj = {x: x, y: y, val: this.props.current_player  == 'crosses'? 'crosses': 'knots' }
 
     //must check for winner and update board_map and cell before setting the next player
-    this.props.update_board_map(obj) 
+    await this.props.update_board_map(obj) 
+
     this.change_cell(x, y, key);
     if(checkForWinner(this.props.current_player, this.props.grid_size, this.props.board_map)){
       this.props.set_winner(this.props.current_player)
+      return
     }
-    else this.set_player();    
+    else {
+      
+     await this.set_player();   
+    
+    }
     this.props.onNextTurn();
+    this.addfunc()
+    if(this.props.current_player == 'knots'){
+      console.log('here')
+      let best_move = this.state.agent.get_best_move(cloneDeep(this.props.board_map))
+      this.onMoveMade(best_move.x, best_move.y)
+    }
+    
   };
    change_cell = (x, y, key) => {
     this.state.cells[x].splice(
@@ -86,8 +105,8 @@ class Board extends Component {
     }
   };
  
-  set_player = () => {
-      this.props.set_current_player(
+  set_player = async () => {
+     await this.props.set_current_player(
         this.props.current_player == 'crosses' ? 'knots' : 'crosses',
       );
     };
