@@ -29,8 +29,11 @@ class Board extends Component {
       this.set_columns(i);
     }
   }
+ componentDidUpdate(){
+   
+ }
 
-  set_columns = (x) => {
+  set_columns = async (x) => {
     let cells = [];
     let board_column = [];
 
@@ -47,7 +50,7 @@ class Board extends Component {
       board_column.push(null);
     }
     this.state.cells.push(cells);
-    this.props.add_column(board_column);
+   await this.props.add_column(board_column);
   };
 
   onMoveMade = async (x, y) => {
@@ -59,18 +62,19 @@ class Board extends Component {
 
     this.change_cell(x, y, key);
     if(checkForWinner(this.props.current_player, this.props.grid_size, this.props.board_map)){
-      this.props.set_winner(this.props.current_player)
+      await this.props.set_winner(this.props.current_player)
       return
     }
     else  await this.set_player();   
-    
-    this.props.onNextTurn();
-    if(this.props.current_player == 'knots' && this.props.alg && !this.props.winner){
-      let best_move = this.state.agent.get_best_move(cloneDeep(this.props.board_map))
-      this.onMoveMade(best_move.x, best_move.y)
-    }
+    this.forceUpdate()
+    //this.props.onNextTurn();
+    if(this.props.current_player == 'knots' && this.props.alg && !this.props.winner)this.make_AI_move()
     
   };
+  make_AI_move = async () =>{
+     let best_move = await this.state.agent.bestMove(cloneDeep(this.props.board_map))
+      this.onMoveMade(best_move.x, best_move.y)
+  }
    change_cell = (x, y, key) => {
     this.state.cells[x].splice(
       y,
