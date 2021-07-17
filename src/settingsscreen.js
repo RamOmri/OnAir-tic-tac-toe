@@ -11,7 +11,7 @@ import {
 import MiniMaxAgent from './components/MiniMaxAgent';
 
 import {connect} from 'react-redux';
-import {set_gridsize} from './redux/actions';
+import {set_gridsize, set_is_against_alg} from './redux/actions';
 
 class settingsscreen extends Component {
   constructor(props){
@@ -32,7 +32,7 @@ class settingsscreen extends Component {
         />
         <Text
           style={{
-            ...styles.select_gridsize_font,
+            ...styles.selection_font,
             color: 'white',
             fontSize: 19,
             marginTop: 20,
@@ -42,35 +42,68 @@ class settingsscreen extends Component {
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity
             style={{
-              ...styles.select_gridsize,
+              ...styles.selection,
               backgroundColor: this.props.grid_size == 3 ? 'green' : 'white',
             }}
             onPress={() => {
               this.props.set_gridsize(3);
             }}>
-            <Text style={styles.select_gridsize_font}>3X3</Text>
+            <Text style={styles.selection_font}>3X3</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
-              ...styles.select_gridsize,
+              ...styles.selection,
               backgroundColor: this.props.grid_size == 4 ? 'green' : 'white',
             }}
             onPress={() => {
               this.props.set_gridsize(4);
             }}>
-            <Text style={styles.select_gridsize_font}>4X4</Text>
+            <Text style={styles.selection_font}>4X4</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
-              ...styles.select_gridsize,
+              ...styles.selection,
               backgroundColor: this.props.grid_size == 5 ? 'green' : 'white',
             }}
             onPress={() => {
               this.props.set_gridsize(5);
             }}>
-            <Text style={styles.select_gridsize_font}>5X5</Text>
+            <Text style={styles.selection_font}>5X5</Text>
           </TouchableOpacity>
         </View>
+        <Text
+          style={{
+            ...styles.selection_font,
+            color: 'white',
+            fontSize: 19,
+            marginTop: 20,
+          }}>
+        Who are you playing against?
+        </Text>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity
+            style={{
+              ...styles.selection,
+              backgroundColor: !this.props.alg ? 'green' : 'white',
+            }}
+            onPress={() => {
+              this.props.set_is_against_alg(false);
+            }}>
+            <Text style={styles.selection_font}>Human</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              ...styles.selection,
+              backgroundColor: this.props.alg ? 'green' : 'white',
+            }}
+            onPress={  () => {
+               this.props.set_is_against_alg(true);
+              
+            }}>
+            <Text style={styles.selection_font}>Computer</Text>
+          </TouchableOpacity>
+        </View>
+
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -95,7 +128,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width / 3,
     resizeMode: 'stretch',
   },
-  select_gridsize: {
+  selection: {
     justifyContent: 'center',
     alignItems: 'center',
     height: Dimensions.get('window').width / 3 - 15,
@@ -104,8 +137,8 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 20,
   },
-  select_gridsize_font: {
-    fontSize: 26,
+  selection_font: {
+    fontSize: 16,
     fontWeight: 'bold',
   },
   logo: {
@@ -134,12 +167,14 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     grid_size: state.grid_size,
+    alg: state.isAgainstAlg
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     set_gridsize: size => dispatch(set_gridsize(size)),
+    set_is_against_alg: is =>dispatch(set_is_against_alg(is))
   };
 };
 

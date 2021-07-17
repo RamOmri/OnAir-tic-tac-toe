@@ -4,14 +4,16 @@ import {
   SET_CURRENT_PLAYER,
   MODIFY_BOARD_MAP,
   SET_WINNER,
-  RESET_GAME
+  RESET_GAME,
+  IS_AGAINST_ALG
 } from './types';
 
 const initState = {
   grid_size: 3,
   board_map: [],
   current_player: 'crosses',
-  winner: null
+  winner: null,
+  isAgainstAlg: false,
 };
 
 const reducer = (state = initState, action) => {
@@ -47,6 +49,11 @@ const reducer = (state = initState, action) => {
       }
     case RESET_GAME:
       return {...initState}
+    case IS_AGAINST_ALG:
+      return{
+        ...state,
+        isAgainstAlg: action.data
+      }
 
     default:
       return state;

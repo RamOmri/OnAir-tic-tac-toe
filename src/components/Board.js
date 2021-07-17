@@ -23,7 +23,7 @@ class Board extends Component {
     super(props);
     this.state = {
       cells: [],
-      agent: new MiniMaxAgent()
+      agent: new MiniMaxAgent(this.props.grid_size)
     };
     for (let i = 0; i < this.props.grid_size; i++) {
       this.set_columns(i);
@@ -49,9 +49,7 @@ class Board extends Component {
     this.state.cells.push(cells);
     this.props.add_column(board_column);
   };
-  addfunc = () =>{
-    console.log(this.props.current_player)
-  }
+
   onMoveMade = async (x, y) => {
     let key = y + this.props.grid_size * x
     let obj = {x: x, y: y, val: this.props.current_player  == 'crosses'? 'crosses': 'knots' }
@@ -64,15 +62,10 @@ class Board extends Component {
       this.props.set_winner(this.props.current_player)
       return
     }
-    else {
-      
-     await this.set_player();   
+    else  await this.set_player();   
     
-    }
     this.props.onNextTurn();
-    this.addfunc()
-    if(this.props.current_player == 'knots'){
-      console.log('here')
+    if(this.props.current_player == 'knots' && this.props.alg){
       let best_move = this.state.agent.get_best_move(cloneDeep(this.props.board_map))
       this.onMoveMade(best_move.x, best_move.y)
     }
@@ -147,7 +140,8 @@ const mapStateToProps = state => {
     grid_size: state.grid_size,
     current_player: state.current_player,
     board_map: state.board_map,
-    winner: state.winner
+    winner: state.winner,
+    alg: state.isAgainstAlg
   };
 };
 

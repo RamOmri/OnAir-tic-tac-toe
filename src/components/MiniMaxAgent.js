@@ -2,8 +2,8 @@ import checkForWinner from './checkForWinner';
 var cloneDeep = require('lodash.clonedeep');
 
 export default class MiniMaxAgent {
-  constructor() {
-   
+  constructor(grid_size) {
+    this.grid_size = grid_size
   }
 
   get_best_move(map) {
@@ -11,31 +11,38 @@ export default class MiniMaxAgent {
     this.construct_game_tree(parent, map, 'max', 0);
     this.set_node_values(parent);
     let children = parent.getChildren();
-    children = this.shuffle(children)
-    for(let i = 0; i < children.length; i++){
-        if(children[i].getValue() == 1){
-            return children[i].get_move()
-        }
+    children = this.shuffle(children);
+
+    let max = children[0];
+    for (let i = 0; i < children.length; i++) {
+      if (children[i].getValue() > max.getValue()) {
+        max = children[i];
+      }
     }
-    return children[0].get_move()
+    return max.get_move();
   }
 
   construct_game_tree(parent, map, player, depth) {
     let all_moves = this.get_all_moves(map);
-    if (all_moves.length == 0 || depth == 5) {
+    if (all_moves.length == 0 || depth == (this.grid_size ==3 ? 7 : 5)) {
       parent.setValue(0);
       return;
     }
-    all_moves = this.shuffle(all_moves)
+    all_moves = this.shuffle(all_moves);
     depth = depth + 1;
-    for (let i = 0; i < 6 && i < all_moves.length; i++) {
+    for (let i = 0; i < (this.grid_size ==3 ? 8 : 6) && i < all_moves.length; i++) {
       let newMap = cloneDeep(map);
       newMap[all_moves[i].x].splice(
         all_moves[i].y,
         1,
         player == 'max' ? 'knots' : 'crosses',
       );
-      let n = new node(parent, newMap, player == 'max' ? 'min' : 'max', all_moves[i]);
+      let n = new node(
+        parent,
+        newMap,
+        player == 'max' ? 'min' : 'max',
+        all_moves[i],
+      );
       parent.addChild(n);
       if (
         checkForWinner(
@@ -92,12 +99,11 @@ export default class MiniMaxAgent {
       }
       return;
     }
+
     for (let i = 0; i < children.length; i++) {
       this.set_node_values(children[i]);
     }
   }
-
- 
 }
 
 class node {
@@ -131,7 +137,7 @@ class node {
   getPlayer() {
     return this.player;
   }
-  get_move(){
-      return this.move
+  get_move() {
+    return this.move;
   }
 }

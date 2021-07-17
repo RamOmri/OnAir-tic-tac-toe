@@ -18,6 +18,7 @@ import {
   set_current_player,
   update_board_map,
   reset_game,
+  set_winner,
 } from './redux/actions';
 
 import Board from './components/Board';
@@ -55,7 +56,9 @@ class GameScreen extends Component {
     return true;
   };
   onNextTurn = () => {
-    this.setState({counter: this.state.counter++});
+    this.setState({counter: this.state.counter + 1});
+    if (this.state.counter == this.props.grid_size * this.props.grid_size)
+      this.props.set_winner('Tie');
   };
   render() {
     return (
@@ -69,7 +72,9 @@ class GameScreen extends Component {
             <Board onNextTurn={this.onNextTurn} />
           </View>
           <Text style={styles.text}>
-            {(!this.props.winner && 'Current player') || 'Winner!!!'}
+            {(!this.props.winner && 'Current player') ||
+              (this.props.winner == 'Tie' && this.props.winner) ||
+              'Winner!!!'}
           </Text>
           <View style={{flexDirection: 'row'}}>
             <Image
@@ -159,6 +164,7 @@ const mapDispatchToProps = dispatch => {
   return {
     reset_game: () => dispatch(reset_game()),
     set_current_player: player => dispatch(set_current_player(player)),
+    set_winner: winner => dispatch(set_winner(winner)),
   };
 };
 
