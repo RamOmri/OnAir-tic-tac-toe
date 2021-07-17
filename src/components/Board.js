@@ -1,15 +1,14 @@
+/*
+ Board component shows a representation of the game and replaces cells with images 
+of either crosses or knots in response to a call back function from the cell component.
+The board component also contains a minimax agent which can play the game against a human player. 
+*/
 import React, {Component} from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
-  Text,
-  DeviceEventEmitter,
   Image,
   Dimensions,
-  TouchableOpacity,
-  ActivityIndicator
 } from 'react-native';
 import MiniMaxAgent from './MiniMaxAgent';
 
@@ -26,12 +25,18 @@ class Board extends Component {
       cells: [],
       agent: new MiniMaxAgent(this.props.grid_size)
     };
+    //for loop calls the set columns function which creates the board. 
+    //each column is an array of cells
     for (let i = 0; i < this.props.grid_size; i++) {
       this.set_columns(i);
     }
   }
 
   set_columns = async (x) => {
+    /*
+        The cells array contains cell components which are then pushed onto another array to form the 
+        playing board displayed on thegame screen. 
+    */
     let cells = [];
     let board_column = [];
 
@@ -48,10 +53,16 @@ class Board extends Component {
       board_column.push(null);
     }
     this.state.cells.push(cells);
+    //function below constructs a map of the board in the redux store. 
    await this.props.add_column(board_column);
   };
 
   onMoveMade = async (x, y) => {
+    /*
+      Call back function triggered when a cell is pressed or when the minimax agent makes a move. 
+      This function takes x and y coordinates to update the board map and replace a cell with an image
+      of a cross or a knot. 
+    */
     let key = y + this.props.grid_size * x
     let obj = {x: x, y: y, val: this.props.current_player  == 'crosses'? 'crosses': 'knots' }
 
@@ -65,16 +76,20 @@ class Board extends Component {
     }
     else  await this.set_player();   
     
-    
+    this.props.onNextTurn();
+
+    //If the current player is knots and the game is against the algorithm, 
+    //derive the best move and then call onMoveMade
     if(this.props.current_player == 'knots' && this.props.alg && !this.props.winner){
-      this.props.onNextTurn(true);
       let best_move = this.state.agent.bestMove(cloneDeep(this.props.board_map))
       this.onMoveMade(best_move.x, best_move.y)
     }
-    else this.props.onNextTurn(false)
     
   };
    change_cell = (x, y, key) => {
+     /*
+      function replaces a cell with an image of cross or knot given x and y coordinates. 
+     */
     this.state.cells[x].splice(
       y,
       1,
@@ -94,6 +109,9 @@ class Board extends Component {
   };
   
   set_cell_identity = () => {
+    /*
+      Function used to derive the correct image to place on the board. 
+    */
     if (this.props.current_player == 'crosses') {
       return require('../img/Cross-red.png');
     } else {
@@ -102,6 +120,9 @@ class Board extends Component {
   };
  
   set_player = async () => {
+    /*
+      Sets the player who plays next after the last player made a move in the store. 
+    */
      await this.props.set_current_player(
         this.props.current_player == 'crosses' ? 'knots' : 'crosses',
       );

@@ -1,4 +1,7 @@
-
+/*
+Admittedly not the most efficient function, but given the limited number of cells being iterated over
+this function performs sufficiently well. 
+*/
 
  export default checkForWinner = (player, grid_size ,board_map) =>{
         let opponent = player == 'crosses' ? 'knots' : 'crosses'
@@ -10,7 +13,6 @@
       }
 
       check_for_vertical_win = (opponent, board_map, grid_size) => {
-        console.log(board_map)
         for(let i = 0; i < grid_size; i++){
           if(!board_map[i].includes(opponent) && !board_map[i].includes(null)){
             return true
@@ -29,6 +31,7 @@
         }
         return false
       }
+      
   check_for_diagonal_win = (player, grid_size, board_map) => {
         let streak = 0
           for(let j = 0; j < grid_size; j++){

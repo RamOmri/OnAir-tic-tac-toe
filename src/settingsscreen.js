@@ -6,21 +6,19 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  BackHandler
+  BackHandler,
 } from 'react-native';
-import MiniMaxAgent from './components/MiniMaxAgent';
 
 import {connect} from 'react-redux';
 import {set_gridsize, set_is_against_alg} from './redux/actions';
 
 class settingsscreen extends Component {
-  constructor(props){
-    super(props)
-      BackHandler.addEventListener(
-        'hardwareBackPress',
-       () =>{return true},
-      );
-    
+  constructor(props) {
+    super(props);
+    //prevent back press to intro screen
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      return true;
+    });
   }
 
   render() {
@@ -78,7 +76,7 @@ class settingsscreen extends Component {
             fontSize: 19,
             marginTop: 20,
           }}>
-        Who are you playing against?
+          Who are you playing against?
         </Text>
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity
@@ -96,9 +94,8 @@ class settingsscreen extends Component {
               ...styles.selection,
               backgroundColor: this.props.alg ? 'green' : 'white',
             }}
-            onPress={  () => {
-               this.props.set_is_against_alg(true);
-              
+            onPress={() => {
+              this.props.set_is_against_alg(true);
             }}>
             <Text style={styles.selection_font}>Computer</Text>
           </TouchableOpacity>
@@ -167,14 +164,14 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     grid_size: state.grid_size,
-    alg: state.isAgainstAlg
+    alg: state.isAgainstAlg,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     set_gridsize: size => dispatch(set_gridsize(size)),
-    set_is_against_alg: is =>dispatch(set_is_against_alg(is))
+    set_is_against_alg: is => dispatch(set_is_against_alg(is)),
   };
 };
 

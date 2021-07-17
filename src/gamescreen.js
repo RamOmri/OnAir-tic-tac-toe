@@ -1,13 +1,10 @@
 import React, {Component} from 'react';
 import {
-  SafeAreaView,
   BackHandler,
   Alert,
   StyleSheet,
-  ScrollView,
   View,
   Text,
-  DeviceEventEmitter,
   Image,
   Dimensions,
   TouchableOpacity,
@@ -16,7 +13,6 @@ import {
 import {connect} from 'react-redux';
 import {
   set_current_player,
-  update_board_map,
   reset_game,
   set_winner,
 } from './redux/actions';
@@ -41,6 +37,8 @@ class GameScreen extends Component {
     );
   }
   handleBackButtonClick = () => {
+    /*On hardware back button press alert asks whether user wants to quit the game. 
+    If yes return to intro screen*/
     Alert.alert('', 'Are you sure that you want to quit the game?', [
       {
         text: 'Yes',
@@ -76,6 +74,9 @@ class GameScreen extends Component {
               (this.props.winner == 'Tie' && this.props.winner) ||
               'Winner!!!'}
           </Text>
+        {  /*
+              Images change shape and colour in accordance with whose turn it is
+          */}
           <View style={{flexDirection: 'row', alignItems:'center'}}>
             <Image
               style={{
