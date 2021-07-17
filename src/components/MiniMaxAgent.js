@@ -5,13 +5,11 @@ export default class MiniMaxAgent {
   constructor(grid_size) {
     this.grid_size = grid_size
   }
- async bestMove(board) {
-    // AI to make its turn
+  bestMove(board) {
     let bestScore = -100;
     let move;
     for (let i = 0; i < this.grid_size; i++) {
       for (let j = 0; j < this.grid_size; j++) {
-        // Is the spot available?
         if (board[i][j] == null) {
          let newBoard = cloneDeep(board)
           newBoard[i].splice(j, 1, 'knots')

@@ -76,9 +76,14 @@ class GameScreen extends Component {
               (this.props.winner == 'Tie' && this.props.winner) ||
               'Winner!!!'}
           </Text>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', alignItems:'center'}}>
             <Image
-              style={styles.currentPlayer}
+              style={{
+                height: Dimensions.get('window').width / (this.props.current_player == 'crosses' ? 4 : 5),
+              width: Dimensions.get('window').width / (this.props.current_player == 'crosses' ? 4 : 5),
+              resizeMode: 'stretch',
+              margin: 10,
+              borderRadius: 20,}}
               source={
                 this.props.current_player == 'crosses'
                   ? require('./img/Cross-green.png')
@@ -86,7 +91,12 @@ class GameScreen extends Component {
               }
             />
             <Image
-              style={styles.currentPlayer}
+              style={{
+                height: Dimensions.get('window').width / (this.props.current_player == 'knots' ? 4 : 5),
+              width: Dimensions.get('window').width / (this.props.current_player == 'knots' ? 4 : 5),
+              resizeMode: 'stretch',
+              margin: 10,
+              borderRadius: 20,}}
               source={
                 this.props.current_player == 'knots'
                   ? require('./img/Knot-green.png')
@@ -134,13 +144,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#e31414',
     borderRadius: 50,
-  },
-  currentPlayer: {
-    height: Dimensions.get('window').width / 4,
-    width: Dimensions.get('window').width / 4,
-    resizeMode: 'stretch',
-    margin: 10,
-    borderRadius: 20,
   },
   logo: {
     marginTop: 25,
