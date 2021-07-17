@@ -1,11 +1,19 @@
 import checkForWinner from './checkForWinner';
 var cloneDeep = require('lodash.clonedeep');
+/*
+  Implementation of the minimax algorithm inside a class using alpha beta pruning. 
+  The board map stored in the redux store is passed to the best move function and used
+  to simulate the game. 
+*/
 
 export default class MiniMaxAgent {
   constructor(grid_size) {
     this.grid_size = grid_size
   }
   bestMove(board) {
+    /*
+      First funciton called starts the minimax algorithm. Essentially a recursive depth first search. 
+    */
     let bestScore = -100;
     let move;
     for (let i = 0; i < this.grid_size; i++) {
@@ -26,6 +34,9 @@ export default class MiniMaxAgent {
     return move
   }
  minimax(board, depth, isMaximizing, alpha, beta) {
+   /*
+    Depth first search with alpha beta pruning
+   */
   let hasWinner = checkForWinner(isMaximizing?'crosses': 'knots', board.length, board);
   if (hasWinner && !isMaximizing) {
     return 1;
@@ -33,12 +44,13 @@ export default class MiniMaxAgent {
   else if(hasWinner){
     return -1
   }
-  if(this.grid_size == 4 && depth == 3 || this.grid_size == 5 && depth == 2|| this.checkForTie(board)) return 0
+  //Below depth is checked to make the time complexity of the algorithm more sufferable
+  if(this.grid_size == 4 && depth == 4 || this.grid_size == 5 && depth == 3|| this.checkForTie(board)) return 0
   if (isMaximizing) {
     let bestScore = -100;
     for (let i = 0; i < this.grid_size; i++) {
       for (let j = 0; j < this.grid_size; j++) {
-        // Is the spot available?
+        // If bo
         if (board[i][j] == null) {
            let newBoard = cloneDeep(board)
           newBoard[i].splice(j, 1, 'knots')
@@ -73,6 +85,10 @@ export default class MiniMaxAgent {
 }
 
   checkForTie(board){
+    /*
+      Given a board map checks whether all spaces are occupied. Does not check for wins only 
+      for a terminal state
+    */
     for(let i = 0; i < board.length; i++){
       for(let j = 0; j < board.length; j++){
         if(board[i][j] == null) return false

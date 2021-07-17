@@ -54,6 +54,9 @@ class GameScreen extends Component {
     return true;
   };
   onNextTurn = () => {
+    /*
+      Counter is used to determine whether or not the game has ended in a tie
+    */
     this.setState({counter: this.state.counter + 1});
     if (this.state.counter == this.props.grid_size * this.props.grid_size)
       this.props.set_winner('Tie');

@@ -17,6 +17,10 @@ import {connect} from 'react-redux';
 import {set_current_player} from '../redux/actions';
 
 class Cell extends Component {
+  /*
+    Simple cell component to determine the size of the playing tiles on the board. A call back function is 
+    triggered when the cell gets pressed which returns the coordinates of the cell. 
+  */
   constructor(props) {
     super(props);
     this.state = {
