@@ -1,3 +1,7 @@
+/*
+    Settings screen is used to determine grid size and whether or not the game is against the algorithm or
+    an opponent. 
+*/
 import React, {Component} from 'react';
 import {
   StyleSheet,
