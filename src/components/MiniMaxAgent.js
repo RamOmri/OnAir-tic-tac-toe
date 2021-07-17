@@ -2,8 +2,10 @@ import checkForWinner from './checkForWinner';
 var cloneDeep = require('lodash.clonedeep');
 
 export default class MiniMaxAgent {
-  constructor(grid_size) {
+  constructor(grid_size, map) {
     this.grid_size = grid_size
+    this.parent  = new node(null, map, 'max', null)
+    this.gameTree = this.construct_game_tree()
   }
 
   get_best_move(map) {
@@ -16,6 +18,7 @@ export default class MiniMaxAgent {
     let max = children[0];
     for (let i = 0; i < children.length; i++) {
       if (children[i].getValue() > max.getValue()) {
+        console.log(children[i].getValue())
         max = children[i];
       }
     }
@@ -24,13 +27,13 @@ export default class MiniMaxAgent {
 
   construct_game_tree(parent, map, player, depth) {
     let all_moves = this.get_all_moves(map);
-    if (all_moves.length == 0 || depth == (this.grid_size ==3 ? 7 : 5)) {
+    if (all_moves.length == 0 || depth == (this.grid_size ==3 ? 8 : 5)) {
       parent.setValue(0);
       return;
     }
     all_moves = this.shuffle(all_moves);
     depth = depth + 1;
-    for (let i = 0; i < (this.grid_size ==3 ? 8 : 6) && i < all_moves.length; i++) {
+    for (let i = 0; i < (this.grid_size ==3 ? 8 : 7) && i < all_moves.length; i++) {
       let newMap = cloneDeep(map);
       newMap[all_moves[i].x].splice(
         all_moves[i].y,
@@ -63,7 +66,15 @@ export default class MiniMaxAgent {
     }
   }
   shuffle(array) {
-    array.sort(() => Math.random() - 0.5);
+    var currentIndex = array.length,  randomIndex;
+    while (0 !== currentIndex) {
+  
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  
     return array;
   }
   get_all_moves(map) {
@@ -92,9 +103,7 @@ export default class MiniMaxAgent {
           n.getValue() < parent.getValue()
         ) {
           parent.setValue(n.getValue());
-        } else {
-          break;
-        }
+        } 
         n = parent;
       }
       return;

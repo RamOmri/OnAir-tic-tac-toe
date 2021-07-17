@@ -65,7 +65,7 @@ class Board extends Component {
     else  await this.set_player();   
     
     this.props.onNextTurn();
-    if(this.props.current_player == 'knots' && this.props.alg){
+    if(this.props.current_player == 'knots' && this.props.alg && !this.props.winner){
       let best_move = this.state.agent.get_best_move(cloneDeep(this.props.board_map))
       this.onMoveMade(best_move.x, best_move.y)
     }
