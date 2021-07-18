@@ -2,4 +2,4 @@ To initialize the project download the git repository then run npm i from the ro
 and can be started by entering the react-native run-android command in the root folder of the project.  The apk can be downloaded and installed on an android device from the following link:
 https://drive.google.com/drive/folders/1PQnHOXtSgKvzLgCXKKH4d8GF0X8uQoxD?usp=sharing
 
-Note when playing against the algorithm on the app, it can take a second for your move to appear on the board because the app is frozen until the algorithm finishes calculating its move.  
+Note when playing against the algorithm on the app, it can take a second for your move to appear on the board because the app is frozen until the algorithm finishes calculating its move. This should not take more than one or two seconds. 
