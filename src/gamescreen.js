@@ -44,7 +44,7 @@ class GameScreen extends Component {
         text: 'Yes',
         onPress: () => {
           this.props.reset_game();
-          this.props.navigation.popToTop();
+          this.props.navigation.popToTop(); 
         },
       },
       {

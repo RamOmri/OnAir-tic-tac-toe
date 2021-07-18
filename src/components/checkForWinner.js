@@ -1,6 +1,7 @@
 /*
 Admittedly not the most efficient function, but given the limited number of cells being iterated over
-this function performs sufficiently well. 
+this function performs sufficiently well. The function checks for the three possible winning series, vertical,
+horizontal or vertical by looping over the board this many times. 
 */
 
  export default checkForWinner = (player, grid_size ,board_map) =>{

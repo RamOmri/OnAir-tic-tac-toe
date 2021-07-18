@@ -12,7 +12,7 @@ export default class MiniMaxAgent {
   }
   bestMove(board) {
     /*
-      First funciton called starts the minimax algorithm. Essentially a recursive depth first search. 
+      First funciton called starts the minimax algorithm. A recursive depth first search. 
     */
     let bestScore = -100;
     let move;
@@ -35,7 +35,7 @@ export default class MiniMaxAgent {
   }
  minimax(board, depth, isMaximizing, alpha, beta) {
    /*
-    Depth first search with alpha beta pruning
+    Implementation of the minimax algorithm with alpha beta pruning
    */
   let hasWinner = checkForWinner(isMaximizing?'crosses': 'knots', board.length, board);
   if (hasWinner && !isMaximizing) {
@@ -44,7 +44,8 @@ export default class MiniMaxAgent {
   else if(hasWinner){
     return -1
   }
-  //Below depth is checked to make the time complexity of the algorithm more sufferable
+  //Below depth is reduced to improve the time complexity. If the grid size is 4X4 the algorithm can only
+  //see 4 moves ahead and if the grid size is 5X5 the algorithm can only see 3 moves ahead. 
   if(this.grid_size == 4 && depth == 4 || this.grid_size == 5 && depth == 3|| this.checkForTie(board)) return 0
   if (isMaximizing) {
     let bestScore = -100;
